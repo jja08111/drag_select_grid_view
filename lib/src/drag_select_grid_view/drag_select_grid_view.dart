@@ -79,7 +79,6 @@ class DragSelectGridView extends StatefulWidget {
     this.physics,
     this.shrinkWrap = false,
     this.padding,
-    @required this.gridDelegate,
     @required this.itemBuilder,
     this.itemCount,
     this.addAutomaticKeepAlives = true,
@@ -141,9 +140,6 @@ class DragSelectGridView extends StatefulWidget {
 
   /// Refer to [BoxScrollView.padding].
   final EdgeInsetsGeometry padding;
-
-  /// Refer to [GridView.gridDelegate].
-  final SliverGridDelegate gridDelegate;
 
   /// Called whenever a child needs to be built.
   ///
@@ -242,14 +238,13 @@ class DragSelectGridViewState extends State<DragSelectGridView>
         behavior: HitTestBehavior.translucent,
         child: IgnorePointer(
           ignoring: isDragging,
-          child: GridView.builder(
+          child: ListView.builder(
             controller: widget.scrollController,
             reverse: widget.reverse,
             primary: widget.primary,
             physics: widget.physics,
             shrinkWrap: widget.shrinkWrap,
             padding: widget.padding,
-            gridDelegate: widget.gridDelegate,
             itemCount: widget.itemCount,
             addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
             addRepaintBoundaries: widget.addRepaintBoundaries,
