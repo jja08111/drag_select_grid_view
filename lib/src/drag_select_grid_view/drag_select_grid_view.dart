@@ -187,7 +187,7 @@ class DragSelectGridViewState extends State<DragSelectGridView>
   Set<int> get selectedIndexes => _selectionManager.selectedIndexes;
 
   void tap(int index) {
-    setState(() => _selectionManager.tap(tapIndex));
+    setState(() => _selectionManager.tap(index));
     _notifySelectionChange();
   }
 
