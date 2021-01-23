@@ -19,6 +19,7 @@
 // SOFTWARE.
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart' hide SelectionChangedCallback;
 
 import '../auto_scroll/auto_scroller_mixin.dart';
@@ -186,6 +187,8 @@ class DragSelectGridViewState extends State<DragSelectGridView>
   /// Indexes selected by dragging or tapping.
   Set<int> get selectedIndexes => _selectionManager.selectedIndexes;
 
+  int get itemCount => widget.itemCount ?? 0;
+
   void tap(int index) {
     setState(() => _selectionManager.tap(index));
     _notifySelectionChange();
@@ -305,6 +308,7 @@ class DragSelectGridViewState extends State<DragSelectGridView>
     final pressIndex = _findIndexOfSelectable(details.localPosition);
 
     if (pressIndex != -1) {
+      HapticFeedback.vibrate();
       setState(() => _selectionManager.startDrag(pressIndex));
       _notifySelectionChange();
     }
