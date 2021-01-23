@@ -175,7 +175,6 @@ class DragSelectGridView extends StatefulWidget {
 
 /// The state for a grid that supports both dragging and tapping to select its
 /// items.
-@visibleForTesting
 class DragSelectGridViewState extends State<DragSelectGridView>
     with AutoScrollerMixin<DragSelectGridView> {
   final _elements = <SelectableElement>{};
@@ -186,6 +185,11 @@ class DragSelectGridViewState extends State<DragSelectGridView>
 
   /// Indexes selected by dragging or tapping.
   Set<int> get selectedIndexes => _selectionManager.selectedIndexes;
+
+  void tap(int index) {
+    setState(() => _selectionManager.tap(tapIndex));
+    _notifySelectionChange();
+  }
 
   /// Whether any item got selected.
   bool get isSelecting => selectedIndexes.isNotEmpty;
