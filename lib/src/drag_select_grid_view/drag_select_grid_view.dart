@@ -71,6 +71,7 @@ class DragSelectGridView extends StatefulWidget {
   /// [GridView.builder].
   DragSelectGridView({
     Key key,
+    @required this.animatedListKey,
     double autoScrollHotspotHeight,
     ScrollController scrollController,
     this.gridController,
@@ -93,6 +94,7 @@ class DragSelectGridView extends StatefulWidget {
         scrollController = scrollController ?? ScrollController(),
         super(key: key);
 
+  final GlobalKey animatedListKey;
   /// The height of the hotspot that enables auto-scroll.
   ///
   /// This value is used for both top and bottom hotspots. The width is going to
@@ -245,28 +247,30 @@ class DragSelectGridViewState extends State<DragSelectGridView>
         behavior: HitTestBehavior.translucent,
         child: IgnorePointer(
           ignoring: isDragging,
-          child: ListView.builder(
+          child: AnimatedList(
+            key: widget.animatedListKey,
             controller: widget.scrollController,
             reverse: widget.reverse,
             primary: widget.primary,
             physics: widget.physics,
             shrinkWrap: widget.shrinkWrap,
             padding: widget.padding,
-            itemCount: widget.itemCount,
-            addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
-            addRepaintBoundaries: widget.addRepaintBoundaries,
-            addSemanticIndexes: widget.addSemanticIndexes,
-            cacheExtent: widget.cacheExtent,
-            semanticChildCount: widget.semanticChildCount,
-            itemBuilder: (context, index) {
-              return Selectable(
-                index: index,
-                onMountElement: _elements.add,
-                onUnmountElement: _elements.remove,
-                child: widget.itemBuilder(
-                  context,
-                  index,
-                  selectedIndexes.contains(index),
+            initialItemCount: widget.itemCount,
+            itemBuilder: (context, index, animation) {
+              return FadeTransition(
+                opacity: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.easeInOut,
+                )),
+                child: Selectable(
+                  index: index,
+                  onMountElement: _elements.add,
+                  onUnmountElement: _elements.remove,
+                  child: widget.itemBuilder(
+                    context,
+                    index,
+                    selectedIndexes.contains(index),
+                  ),
                 ),
               );
             },
