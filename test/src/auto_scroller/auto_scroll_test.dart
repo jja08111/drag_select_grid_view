@@ -10,7 +10,7 @@ void main() {
         expect(
           () => AutoScroll(
             duration: const Duration(seconds: 1),
-            direction: null,
+            direction: AutoScrollDirection.forward,
           ),
           throwsAssertionError,
         );
@@ -24,7 +24,7 @@ void main() {
         expect(
           () => AutoScroll(
             direction: AutoScrollDirection.forward,
-            duration: null,
+            duration: Duration.zero,
           ),
           throwsAssertionError,
         );

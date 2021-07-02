@@ -70,10 +70,10 @@ class DragSelectGridView extends StatefulWidget {
   /// For information about the clause of the other parameters, refer to
   /// [GridView.builder].
   DragSelectGridView({
-    Key key,
-    @required this.animatedListKey,
-    double autoScrollHotspotHeight,
-    ScrollController scrollController,
+    Key? key,
+    required this.animatedListKey,
+    double? autoScrollHotspotHeight,
+    ScrollController? scrollController,
     this.gridController,
     this.unselectOnWillPop = true,
     this.reverse = false,
@@ -81,15 +81,14 @@ class DragSelectGridView extends StatefulWidget {
     this.physics,
     this.shrinkWrap = false,
     this.padding,
-    @required this.itemBuilder,
+    required this.itemBuilder,
     this.itemCount,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.addSemanticIndexes = true,
     this.cacheExtent,
     this.semanticChildCount,
-  })  : assert(itemBuilder != null),
-        autoScrollHotspotHeight =
+  })  : autoScrollHotspotHeight =
             autoScrollHotspotHeight ?? defaultAutoScrollHotspotHeight,
         scrollController = scrollController ?? ScrollController(),
         super(key: key);
@@ -116,7 +115,7 @@ class DragSelectGridView extends StatefulWidget {
   /// This controller may not be used after [DragSelectGridViewState] disposes,
   /// since [DragSelectGridViewController.dispose] will get called and the
   /// listeners are going to be cleaned up.
-  final DragSelectGridViewController gridController;
+  final DragSelectGridViewController? gridController;
 
   /// Whether the items should be unselected when trying to pop the route.
   ///
@@ -133,16 +132,16 @@ class DragSelectGridView extends StatefulWidget {
   final bool reverse;
 
   /// Refer to [ScrollView.primary].
-  final bool primary;
+  final bool? primary;
 
   /// Refer to [ScrollView.physics].
-  final ScrollPhysics physics;
+  final ScrollPhysics? physics;
 
   /// Refer to [ScrollView.shrinkWrap].
   final bool shrinkWrap;
 
   /// Refer to [BoxScrollView.padding].
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
 
   /// Called whenever a child needs to be built.
   ///
@@ -155,7 +154,7 @@ class DragSelectGridView extends StatefulWidget {
   final SelectableWidgetBuilder itemBuilder;
 
   /// Refer to [SliverChildBuilderDelegate.childCount].
-  final int itemCount;
+  final int? itemCount;
 
   /// Refer to [SliverChildBuilderDelegate.addAutomaticKeepAlives].
   final bool addAutomaticKeepAlives;
@@ -167,10 +166,10 @@ class DragSelectGridView extends StatefulWidget {
   final bool addSemanticIndexes;
 
   /// Refer to [ScrollView.cacheExtent].
-  final double cacheExtent;
+  final double? cacheExtent;
 
   /// Refer to [ScrollView.semanticChildCount].
-  final int semanticChildCount;
+  final int? semanticChildCount;
 
   @override
   DragSelectGridViewState createState() => DragSelectGridViewState();
@@ -182,9 +181,9 @@ class DragSelectGridViewState extends State<DragSelectGridView>
     with AutoScrollerMixin<DragSelectGridView> {
   final _elements = <SelectableElement>{};
   final _selectionManager = SelectionManager();
-  LongPressMoveUpdateDetails _lastMoveUpdateDetails;
+  LongPressMoveUpdateDetails? _lastMoveUpdateDetails;
 
-  DragSelectGridViewController get _gridController => widget.gridController;
+  DragSelectGridViewController? get _gridController => widget.gridController;
 
   /// Indexes selected by dragging or tapping.
   Set<int> get selectedIndexes => _selectionManager.selectedIndexes;
@@ -223,8 +222,8 @@ class DragSelectGridViewState extends State<DragSelectGridView>
   void initState() {
     super.initState();
     if (_gridController != null) {
-      _gridController.addListener(_onSelectionChanged);
-      _selectionManager.selectedIndexes = _gridController.value.selectedIndexes;
+      _gridController!.addListener(_onSelectionChanged);
+      _selectionManager.selectedIndexes = _gridController!.value.selectedIndexes;
     }
   }
 
@@ -255,7 +254,7 @@ class DragSelectGridViewState extends State<DragSelectGridView>
             physics: widget.physics,
             shrinkWrap: widget.shrinkWrap,
             padding: widget.padding,
-            initialItemCount: widget.itemCount,
+            initialItemCount: widget.itemCount!,
             itemBuilder: (context, index, animation) {
               return FadeTransition(
                 opacity: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -281,7 +280,7 @@ class DragSelectGridViewState extends State<DragSelectGridView>
   }
 
   void _onSelectionChanged() {
-    final controllerSelectedIndexes = _gridController.value.selectedIndexes;
+    final controllerSelectedIndexes = _gridController!.value.selectedIndexes;
     if (!setEquals(controllerSelectedIndexes, selectedIndexes)) {
       _selectionManager.selectedIndexes = controllerSelectedIndexes;
     }
@@ -318,11 +317,11 @@ class DragSelectGridViewState extends State<DragSelectGridView>
     }
   }
 
-  void _handleLongPressMoveUpdate(LongPressMoveUpdateDetails details) {
+  void _handleLongPressMoveUpdate(LongPressMoveUpdateDetails? details) {
     if (!isDragging) return;
 
     _lastMoveUpdateDetails = details;
-    final dragIndex = _findIndexOfSelectable(details.localPosition);
+    final dragIndex = _findIndexOfSelectable(details!.localPosition);
 
     if ((dragIndex != -1) && (dragIndex != _selectionManager.dragEndIndex)) {
       setState(() => _selectionManager.updateDrag(dragIndex));
@@ -353,17 +352,17 @@ class DragSelectGridViewState extends State<DragSelectGridView>
 
   int _findIndexOfSelectable(Offset offset) {
     final ancestor = context.findRenderObject();
-    var elementFinder = Set.of(_elements).firstWhere;
+    var elementFinder = Set.of(_elements).firstWhere as SelectableElement? Function(bool Function(SelectableElement?), {SelectableElement? Function() orElse});
 
     // Conceptually, `Set.singleWhere()` is the safer option, however we're
     // avoiding to iterate over the whole `Set` to improve the performance.
     assert(() {
-      elementFinder = Set.of(_elements).singleWhere;
+      elementFinder = Set.of(_elements).singleWhere as SelectableElement? Function(bool Function(SelectableElement?), {SelectableElement? Function() orElse});
       return true;
     }());
 
     final element = elementFinder(
-      (element) => element.containsOffset(ancestor, offset),
+      (element) => element!.containsOffset(ancestor, offset),
       orElse: () => null,
     );
 

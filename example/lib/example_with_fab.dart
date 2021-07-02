@@ -65,7 +65,7 @@ class _MyAppState extends State<MyApp> {
             selected: selected,
           );
         },
-        animatedListKey: GlobalKey<AnimatedListState>(),
+        animatedListKey: GlobalKey(),
       ),
     );
   }

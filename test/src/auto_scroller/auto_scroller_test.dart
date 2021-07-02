@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  ScrollController controller;
+  ScrollController? controller;
 
   Widget createWidget() {
     controller = ScrollController();
@@ -28,7 +28,7 @@ void main() {
 
         final autoScroller = AutoScroller(
           AutoScroll.stopped(direction: AutoScrollDirection.backward),
-          controller,
+          controller!,
         );
 
         expect(autoScroller.isAbleToScroll, isTrue);
@@ -57,7 +57,7 @@ void main() {
 
         final autoScroller = AutoScroller(
           AutoScroll.stopped(),
-          controller,
+          controller!,
         );
 
         expect(autoScroller.isAbleToScroll, isFalse);
@@ -74,11 +74,11 @@ void main() {
         final widget = createWidget();
         await tester.pumpWidget(widget);
 
-        controller.jumpTo(controller.position.maxScrollExtent - 1);
+        controller!.jumpTo(controller!.position.maxScrollExtent - 1);
 
         final autoScroller = AutoScroller(
           AutoScroll.stopped(direction: AutoScrollDirection.forward),
-          controller,
+          controller!,
         );
 
         expect(autoScroller.hasAnythingLeftToScroll, isTrue);
@@ -93,11 +93,11 @@ void main() {
         final widget = createWidget();
         await tester.pumpWidget(widget);
 
-        controller.jumpTo(1);
+        controller!.jumpTo(1);
 
         final autoScroller = AutoScroller(
           AutoScroll.stopped(direction: AutoScrollDirection.backward),
-          controller,
+          controller!,
         );
 
         expect(autoScroller.hasAnythingLeftToScroll, isTrue);
@@ -112,11 +112,11 @@ void main() {
         final widget = createWidget();
         await tester.pumpWidget(widget);
 
-        controller.jumpTo(controller.position.maxScrollExtent);
+        controller!.jumpTo(controller!.position.maxScrollExtent);
 
         final autoScroller = AutoScroller(
           AutoScroll.stopped(direction: AutoScrollDirection.forward),
-          controller,
+          controller!,
         );
 
         expect(autoScroller.hasAnythingLeftToScroll, isFalse);
@@ -131,11 +131,11 @@ void main() {
         final widget = createWidget();
         await tester.pumpWidget(widget);
 
-        controller.jumpTo(0);
+        controller!.jumpTo(0);
 
         final autoScroller = AutoScroller(
           AutoScroll.stopped(direction: AutoScrollDirection.backward),
-          controller,
+          controller!,
         );
 
         expect(autoScroller.hasAnythingLeftToScroll, isFalse);
@@ -156,7 +156,7 @@ void main() {
             direction: AutoScrollDirection.forward,
             duration: const Duration(seconds: 1),
           ),
-          controller,
+          controller!,
         );
 
         expect(autoScroller.mustScroll, isTrue);
@@ -172,7 +172,7 @@ void main() {
 
         final autoScroller = AutoScroller(
           AutoScroll.stopped(direction: AutoScrollDirection.forward),
-          controller,
+          controller!,
         );
 
         expect(autoScroller.mustScroll, isTrue);
@@ -189,7 +189,7 @@ void main() {
 
         final autoScroller = AutoScroller(
           AutoScroll.stopped(),
-          controller,
+          controller!,
         );
 
         expect(autoScroller.mustScroll, isFalse);
@@ -210,7 +210,7 @@ void main() {
             direction: AutoScrollDirection.forward,
             duration: const Duration(seconds: 1),
           ),
-          controller,
+          controller!,
         );
 
         expect(mockAutoScroller.performScrollCount, 0);
@@ -235,7 +235,7 @@ void main() {
 
         final mockAutoScroller = MockAutoScroller(
           AutoScroll.stopped(direction: AutoScrollDirection.forward),
-          controller,
+          controller!,
         );
 
         expect(mockAutoScroller.performOverscrollOfScrollStopCount, 0);
@@ -262,11 +262,11 @@ void main() {
         final widget = createWidget();
         await tester.pumpWidget(widget);
 
-        controller.jumpTo(controller.position.maxScrollExtent);
+        controller!.jumpTo(controller!.position.maxScrollExtent);
 
         final mockAutoScroller = MockAutoScroller(
           AutoScroll.stopped(direction: AutoScrollDirection.backward),
-          controller,
+          controller!,
         );
 
         expect(mockAutoScroller.performOverscrollOfScrollStopCount, 0);

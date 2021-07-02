@@ -428,7 +428,7 @@ void main() {
       "then an error is thrown.",
       () {
         expect(
-          () => Selection(null),
+          const Selection.empty().isSelecting,
           throwsNoSuchMethodError,
         );
       },

@@ -14,17 +14,17 @@ void main() {
   final lastItemFinder = find.byKey(const ValueKey('grid-item-11'));
 
   Widget widget;
-  DragSelectGridViewState dragSelectState;
+  late DragSelectGridViewState dragSelectState;
 
-  Offset mainAxisItemsDistance;
-  Offset crossAxisItemsDistance;
+  Offset? mainAxisItemsDistance;
+  Offset? crossAxisItemsDistance;
 
   /// Creates a [DragSelectGridView] with 4 columns and 3 lines, based on
   /// [screenHeight] and [screenWidth].
   Widget createWidget({
-    DragSelectGridViewController gridController,
-    bool reverse,
-    bool unselectOnWillPop,
+    DragSelectGridViewController? gridController,
+    bool? reverse,
+    bool? unselectOnWillPop,
   }) {
     return MaterialApp(
       home: Row(
@@ -58,9 +58,9 @@ void main() {
   /// manually at the initialization of every [testWidgets].
   Future<void> setUp(
     WidgetTester tester, {
-    DragSelectGridViewController gridController,
-    bool reverse,
-    bool unselectOnWillPop,
+    DragSelectGridViewController? gridController,
+    bool? reverse,
+    bool? unselectOnWillPop,
   }) async {
     widget = createWidget(
       gridController: gridController,
@@ -91,7 +91,7 @@ void main() {
       expect(
         () => MaterialApp(
           home: DragSelectGridView(
-            itemBuilder: null,
+            itemBuilder: (_, __, ___) => SizedBox(),
             itemCount: 0,
             animatedListKey: GlobalKey<AnimatedListState>(),
           ),
@@ -343,7 +343,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: mainAxisItemsDistance,
+            offset: mainAxisItemsDistance!,
           );
           await gesture.up();
           await tester.pump();
@@ -383,7 +383,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: mainAxisItemsDistance,
+            offset: mainAxisItemsDistance!,
           );
           await tester.pump();
 
@@ -391,7 +391,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: -mainAxisItemsDistance,
+            offset: -mainAxisItemsDistance!,
           );
           await gesture.up();
           await tester.pump();
@@ -428,14 +428,14 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: mainAxisItemsDistance,
+            offset: mainAxisItemsDistance!,
           );
           await tester.pump();
 
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: mainAxisItemsDistance,
+            offset: mainAxisItemsDistance!,
           );
           await gesture.up();
           await tester.pump();
@@ -473,7 +473,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: mainAxisItemsDistance * 2,
+            offset: mainAxisItemsDistance! * 2,
           );
           await tester.pump();
 
@@ -483,14 +483,14 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: -mainAxisItemsDistance,
+            offset: -mainAxisItemsDistance!,
           );
           await tester.pump();
 
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: -mainAxisItemsDistance,
+            offset: -mainAxisItemsDistance!,
           );
           await gesture.up();
           await tester.pump();
@@ -526,7 +526,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: crossAxisItemsDistance,
+            offset: crossAxisItemsDistance!,
           );
           await gesture.up();
           await tester.pump();
@@ -565,7 +565,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: crossAxisItemsDistance,
+            offset: crossAxisItemsDistance!,
           );
           await tester.pump();
 
@@ -573,7 +573,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: -crossAxisItemsDistance,
+            offset: -crossAxisItemsDistance!,
           );
           await gesture.up();
           await tester.pump();
@@ -639,7 +639,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: -mainAxisItemsDistance,
+            offset: -mainAxisItemsDistance!,
           );
           await gesture.up();
           await tester.pump();
@@ -679,7 +679,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: -mainAxisItemsDistance,
+            offset: -mainAxisItemsDistance!,
           );
           await tester.pump();
 
@@ -687,7 +687,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: mainAxisItemsDistance,
+            offset: mainAxisItemsDistance!,
           );
           await gesture.up();
           await tester.pump();
@@ -724,14 +724,14 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: -mainAxisItemsDistance,
+            offset: -mainAxisItemsDistance!,
           );
           await tester.pump();
 
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: -mainAxisItemsDistance,
+            offset: -mainAxisItemsDistance!,
           );
           await gesture.up();
           await tester.pump();
@@ -772,7 +772,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: -mainAxisItemsDistance * 2,
+            offset: -mainAxisItemsDistance! * 2,
           );
           await tester.pump();
 
@@ -782,14 +782,14 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: mainAxisItemsDistance,
+            offset: mainAxisItemsDistance!,
           );
           await tester.pump();
 
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: mainAxisItemsDistance,
+            offset: mainAxisItemsDistance!,
           );
           await gesture.up();
           await tester.pump();
@@ -826,7 +826,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: -crossAxisItemsDistance,
+            offset: -crossAxisItemsDistance!,
           );
           await gesture.up();
           await tester.pump();
@@ -867,7 +867,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: -crossAxisItemsDistance,
+            offset: -crossAxisItemsDistance!,
           );
           await tester.pump();
 
@@ -875,7 +875,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: crossAxisItemsDistance,
+            offset: crossAxisItemsDistance!,
           );
           await gesture.up();
           await tester.pump();
@@ -937,7 +937,7 @@ void main() {
           gesture = await dragDown(
             tester: tester,
             previousGesture: gesture,
-            offset: mainAxisItemsDistance,
+            offset: mainAxisItemsDistance!,
           );
           await tester.pump();
 
@@ -1035,7 +1035,7 @@ void main() {
         await longPressDownAndDrag(
           tester: tester,
           finder: gridFinder,
-          offset: Offset(0, -(dragSelectState.context.size.height / 2) + 1),
+          offset: Offset(0, -(dragSelectState.context.size!.height / 2) + 1),
         );
         await tester.pump();
 
@@ -1060,7 +1060,7 @@ void main() {
         await longPressDownAndDrag(
           tester: tester,
           finder: gridFinder,
-          offset: Offset(0, -(dragSelectState.context.size.height / 2) + 1),
+          offset: Offset(0, -(dragSelectState.context.size!.height / 2) + 1),
         );
         await tester.pump();
 
@@ -1083,7 +1083,7 @@ void main() {
         await longPressDownAndDrag(
           tester: tester,
           finder: gridFinder,
-          offset: Offset(0, (dragSelectState.context.size.height / 2)),
+          offset: Offset(0, (dragSelectState.context.size!.height / 2)),
         );
         await tester.pump();
 
@@ -1108,7 +1108,7 @@ void main() {
         await longPressDownAndDrag(
           tester: tester,
           finder: gridFinder,
-          offset: Offset(0, (dragSelectState.context.size.height / 2)),
+          offset: Offset(0, (dragSelectState.context.size!.height / 2)),
         );
         await tester.pump();
 
@@ -1133,7 +1133,7 @@ void main() {
         final gesture = await longPressDownAndDrag(
           tester: tester,
           finder: gridFinder,
-          offset: Offset(0, -(dragSelectState.context.size.height / 2) + 1),
+          offset: Offset(0, -(dragSelectState.context.size!.height / 2) + 1),
         );
         await tester.pump();
         expect(
@@ -1167,7 +1167,7 @@ void main() {
         final gesture = await longPressDownAndDrag(
           tester: tester,
           finder: gridFinder,
-          offset: Offset(0, dragSelectState.context.size.height / 2),
+          offset: Offset(0, dragSelectState.context.size!.height / 2),
         );
         await tester.pump();
         expect(
@@ -1201,7 +1201,7 @@ void main() {
         final gesture = await longPressDownAndDrag(
           tester: tester,
           finder: gridFinder,
-          offset: Offset(0, dragSelectState.context.size.height / 2),
+          offset: Offset(0, dragSelectState.context.size!.height / 2),
         );
         await tester.pump();
         expect(
