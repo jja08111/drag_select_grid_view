@@ -43,9 +43,7 @@ void main() {
               itemBuilder: (_, index, __) => Container(
                 key: ValueKey('grid-item-$index'),
               ),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-              ),
+              animatedListKey: GlobalKey<AnimatedListState>(),
             ),
           )
         ],
@@ -95,9 +93,7 @@ void main() {
           home: DragSelectGridView(
             itemBuilder: null,
             itemCount: 0,
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 1,
-            ),
+            animatedListKey: GlobalKey<AnimatedListState>(),
           ),
         ),
         throwsAssertionError,

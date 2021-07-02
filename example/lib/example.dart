@@ -57,11 +57,7 @@ class _MyAppState extends State<MyApp> {
             selected: selected,
           );
         },
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 150,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
-        ),
+        animatedListKey: GlobalKey<AnimatedListState>(),
       ),
     );
   }

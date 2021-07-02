@@ -26,9 +26,7 @@ void main() {
               child: DragSelectGridView(
                 itemCount: 0,
                 itemBuilder: (_, __, ___) => SizedBox(),
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 1,
-                ),
+                animatedListKey: GlobalKey<AnimatedListState>(),
               ),
             ),
             Container(width: distanceFromRight),
