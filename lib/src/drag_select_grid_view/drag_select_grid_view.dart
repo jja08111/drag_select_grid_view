@@ -21,6 +21,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart' hide SelectionChangedCallback;
+import 'package:collection/collection.dart';
 
 import '../auto_scroll/auto_scroller_mixin.dart';
 import '../drag_select_grid_view/selectable.dart';
@@ -94,6 +95,7 @@ class DragSelectGridView extends StatefulWidget {
         super(key: key);
 
   final GlobalKey animatedListKey;
+
   /// The height of the hotspot that enables auto-scroll.
   ///
   /// This value is used for both top and bottom hotspots. The width is going to
@@ -223,7 +225,8 @@ class DragSelectGridViewState extends State<DragSelectGridView>
     super.initState();
     if (_gridController != null) {
       _gridController!.addListener(_onSelectionChanged);
-      _selectionManager.selectedIndexes = _gridController!.value.selectedIndexes;
+      _selectionManager.selectedIndexes =
+          _gridController!.value.selectedIndexes;
     }
   }
 
@@ -352,18 +355,17 @@ class DragSelectGridViewState extends State<DragSelectGridView>
 
   int _findIndexOfSelectable(Offset offset) {
     final ancestor = context.findRenderObject();
-    var elementFinder = Set.of(_elements).firstWhere as SelectableElement? Function(bool Function(SelectableElement?), {SelectableElement? Function() orElse});
+    var elementFinder = Set.of(_elements).firstWhereOrNull;
 
     // Conceptually, `Set.singleWhere()` is the safer option, however we're
     // avoiding to iterate over the whole `Set` to improve the performance.
     assert(() {
-      elementFinder = Set.of(_elements).singleWhere as SelectableElement? Function(bool Function(SelectableElement?), {SelectableElement? Function() orElse});
+      elementFinder = Set.of(_elements).singleWhereOrNull;
       return true;
     }());
 
     final element = elementFinder(
-      (element) => element!.containsOffset(ancestor, offset),
-      orElse: () => null,
+      (element) => element.containsOffset(ancestor, offset),
     );
 
     return (element == null) ? -1 : element.widget.index;
